@@ -17,7 +17,11 @@ Observe what you see with the agent's behavior as it takes random actions.
 Does the smartcab eventually make it to the destination? Are there any other interesting observations to note?
 
 **Answer:**
-The angent's behaviour
+The angent's behaviour is, unsurprisingly, random. It would at times move in a circle (around the block) not really progressing 
+in any net new direction. And it doesn't appear to have any logic (it's random) behind its movement as rewards for previous states and actions are ignored.
+
+However, the smartcab does eventually make it to its destination.
+TODO: Add some other stuff here
 
 ## Inform the Driving Agent
 Now that your driving agent is capable of moving around in the environment, 
