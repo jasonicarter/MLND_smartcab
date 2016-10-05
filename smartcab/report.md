@@ -21,7 +21,7 @@ The angent's behaviour is, unsurprisingly, random. It would at times move in a c
 in any net new direction. And it doesn't appear to have any logic (it's random) behind its movement as rewards for previous states and actions are ignored.
 
 However, the smartcab does eventually make it to its destination.
-TODO: Add some other stuff here
+TODO: Add some other stuff here + Can I do some stats description
 
 ## Inform the Driving Agent
 Now that your driving agent is capable of moving around in the environment, 

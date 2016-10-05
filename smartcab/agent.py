@@ -15,7 +15,7 @@ class LearningAgent(Agent):
         random.seed()  # initialize number generator
         self.actions = [None, 'forward', 'left', 'right']
         # TODO: setup possible states
-        # self.state
+        self.state = {}
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -28,7 +28,8 @@ class LearningAgent(Agent):
         deadline = self.env.get_deadline(self)
 
         # TODO: Update state
-        self.state = None
+        self.state = inputs
+        self.state["next_waypoint"] = self.next_waypoint
         
         # TODO: Select action according to your policy
         action = self.actions[random.randint(0, 3)]
@@ -39,6 +40,7 @@ class LearningAgent(Agent):
         # TODO: Learn policy based on state, action, reward
 
         print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
+        print self.state
 
 
 def run():
@@ -51,7 +53,7 @@ def run():
     # NOTE: You can set enforce_deadline=False while debugging to allow longer trials
 
     # Now simulate it
-    sim = Simulator(e, update_delay=0.5, display=True)  # create simulator (uses pygame when display=True, if available)
+    sim = Simulator(e, update_delay=0.5, display=False)  # create simulator (uses pygame when display=True, if available)
     # NOTE: To speed up simulation, reduce update_delay and/or set display=False
 
     sim.run(n_trials=100)  # run for a specified number of trials
