@@ -21,9 +21,9 @@ class LearningAgent(Agent):
         random.seed()  # initialize number generator
         self.state = None
         self.qtable = {}
-        self.alpha = 0.2  # learning rate
+        self.alpha = 0.6  # learning rate
         self.epsilon = 0.1  # exploration rate
-        self.gamma = 0.4  # discount factor
+        self.gamma = 0.1  # discount factor
         self.total_reward = 0
         self.last_reward = 0
         self.last_action = None
@@ -80,7 +80,7 @@ class LearningAgent(Agent):
         self.state = (inputs['light'], inputs['oncoming'], inputs['left'], self.next_waypoint)
 
         # TODO: Select action according to your policy
-        action = random.choice(self.valid_actions)  # self.get_action()
+        action = self.get_action()  # random actions => random.choice(self.valid_actions)
 
         # Execute action and get reward
         reward = self.env.act(self, action)
@@ -88,11 +88,11 @@ class LearningAgent(Agent):
         self.total_reward += reward
 
         # TODO: Learn policy based on state, action, reward
-        # self.update_policy(action, reward)
-        #
-        # self.last_action = action
-        # self.last_reward = reward
-        # self.last_state = self.state
+        self.update_policy(action, reward)
+
+        self.last_action = action
+        self.last_reward = reward
+        self.last_state = self.state
 
         # print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}" \
         #     .format(deadline, inputs, action, reward)  # [debug]
