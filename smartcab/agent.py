@@ -29,7 +29,7 @@ class LearningAgent(Agent):
         self.last_action = None
         self.last_state = None
         self.valid_actions = Environment.valid_actions
-        # self.results = Counter()
+        results.clear()
 
     def reset(self, destination=None):
         self.planner.route_to(destination)
@@ -60,13 +60,13 @@ class LearningAgent(Agent):
             self.qtable[self.last_state] = [0, 0, 0, 0]
 
         # Update q table based on the Q-learning =>
-        # Q(state, action) = alpha(r + gamma * max[Q(next state, actions)] - Q[s,a])
+        # Q(state, action) =  Q[s,a] + alpha(r + gamma * max[Q(next state, actions)] - Q[s,a])
 
         self.qtable[self.state][self.valid_actions.index(action)] = \
             (
-                self.qtable[self.last_state][self.valid_actions.index(self.last_action)] +  # Q[s,a] +
-                self.alpha * (reward + self.gamma * max(self.qtable[self.state]) -  # alpha ( r+gamma*maxQ[s',a'] -
-                              self.qtable[self.last_state][self.valid_actions.index(self.last_action)])  # Q[s,a])
+                self.qtable[self.last_state][self.valid_actions.index(self.last_action)] +
+                self.alpha * (reward + self.gamma * max(self.qtable[self.state]) -
+                              self.qtable[self.last_state][self.valid_actions.index(self.last_action)])
             )
 
     def update(self, t):
@@ -80,7 +80,7 @@ class LearningAgent(Agent):
         self.state = (inputs['light'], inputs['oncoming'], inputs['left'], self.next_waypoint)
 
         # TODO: Select action according to your policy
-        action = self.get_action()
+        action = random.choice(self.valid_actions)  # self.get_action()
 
         # Execute action and get reward
         reward = self.env.act(self, action)
@@ -88,11 +88,11 @@ class LearningAgent(Agent):
         self.total_reward += reward
 
         # TODO: Learn policy based on state, action, reward
-        self.update_policy(action, reward)
-
-        self.last_action = action
-        self.last_reward = reward
-        self.last_state = self.state
+        # self.update_policy(action, reward)
+        #
+        # self.last_action = action
+        # self.last_reward = reward
+        # self.last_state = self.state
 
         # print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}" \
         #     .format(deadline, inputs, action, reward)  # [debug]
@@ -118,15 +118,17 @@ def run():
     # NOTE: You can set enforce_deadline=False while debugging to allow longer trials
 
     # Now simulate it
-    sim = Simulator(e, update_delay=0.05,
+    sim = Simulator(e, update_delay=0,
                     display=False)  # create simulator (uses pygame when display=True, if available)
     # NOTE: To speed up simulation, reduce update_delay and/or set display=False
 
-    sim.run(n_trials=10)  # run for a specified number of trials
+    sim.run(n_trials=100)  # run for a specified number of trials
     # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
 
 
 if __name__ == '__main__':
-    run()
+    for i in range(0, 5):
+        run()
+        print 'Results {}'.format(results)
 
-print 'Results {}'.format(results)
+
