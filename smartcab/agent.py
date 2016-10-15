@@ -38,7 +38,7 @@ class LearningAgent(Agent):
         self.state = None
         self.total_reward = 0
         self.last_reward = 0
-        self.last_action = None
+        self.last_action = random.choice(self.valid_actions)
         self.last_state = None
 
     def get_action(self):
@@ -48,16 +48,16 @@ class LearningAgent(Agent):
             # assign action based on max Q value
             action = self.valid_actions[max_q]
         else:
-            action = random.choice(self.valid_actions)
+            action = random.choice(['forward', 'left', 'right'])
 
         return action
 
     def update_policy(self, action, reward):
         if self.state not in self.qtable:
-            self.qtable[self.state] = [0, 0, 0, 0]
+            self.qtable[self.state] = [4, 4, 4, 4]
 
         if self.last_state not in self.qtable:
-            self.qtable[self.last_state] = [0, 0, 0, 0]
+            self.qtable[self.last_state] = [4, 4, 4, 4]
 
         # Update q table based on the Q-learning =>
         # Q(state, action) =  Q[s,a] + alpha(r + gamma * max[Q(next state, actions)] - Q[s,a])
@@ -89,6 +89,7 @@ class LearningAgent(Agent):
 
         # TODO: Learn policy based on state, action, reward
         self.update_policy(action, reward)
+        # print self.qtable
 
         self.last_action = action
         self.last_reward = reward
@@ -124,7 +125,6 @@ def run():
 
     sim.run(n_trials=100)  # run for a specified number of trials
     # NOTE: To quit midway, press Esc or close pygame window, or hit Ctrl+C on the command-line
-
 
 if __name__ == '__main__':
     for i in range(0, 5):
